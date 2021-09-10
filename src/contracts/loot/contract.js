@@ -79,9 +79,10 @@ export async function handle(state, action) {
       return { state };
     }
     
-    default:
+    default: {
       throw new ContractError(
         `Unsupported contract function: ${functionName}`);
+    }
 
   }
 }
