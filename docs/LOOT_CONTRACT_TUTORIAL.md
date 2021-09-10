@@ -31,7 +31,7 @@ $ yarn add arlocal jest -D
 ```
 
 ## 🧑‍💻 Implement the smart contract
-💡 You can found the ready-made implementation of the smart contract in [src/contracts/loot.](../src/contracts/loot)
+💡 You can find the ready-made implementation of the smart contract in [src/contracts/loot.](../src/contracts/loot)
 
 ### Start with a state
 The first 2 things you should think about before implementing a SmartWeave contract are
