@@ -12,6 +12,9 @@ We will implement a simple [LOOT](https://www.lootproject.com/)-like contract, w
 Initially there are no generated assets, but users will be able to generate and claim them.
 Users also will be able to transfer their assets to others.
 
+### Deployed version
+We've already deployed this contract on the Arweave blockchain. Its transaction id is [GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU](https://viewblock.io/arweave/address/GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU). You can check its source code on the [Arweave Blockchain.](https://ms6a6h7htp3sq6ovqe36awtsek3vhd4tz642m6jbj4sp2qmjsr4a.arweave.net/ZLwPH-eb9yh51YE34FpyIrdTj5PPuaZ5IU8k_UGJlHg)
+
 ### 🙋‍♂️ Need help?
 Please feel free to contact us [on Discord](https://redstone.finance/discord) if you have any questions.
 
@@ -199,13 +202,13 @@ The best way to implement tests is to use a special test framework like [JEST](h
 We will use arlocal to run a local Arweave instance. It is much faster than the real blockchain.
 And it allows to test SmartWave contracts without spending AR tokens.
 
-Let's create a new file `simple-test.js`.
+Let's create a new file `simple-demo.js`.
 
-💡 You can see the ready-made implementation of the test script in [src/tools/simple-test.js](../src/tools/simple-test.js). You can also see a better solution (JEST tests) in [tests/contracts.](../tests/contracts)
+💡 You can see the ready-made implementation of the test script in [src/tools/simple-demo.js](../src/tools/simple-demo.js). You can also see a better solution (JEST tests) in [tests/contracts.](../tests/contracts)
 
 #### 1.Load required modules
 ```javascript
-// File: simple-test.js
+// File: simple-demo.js
 
 const fs = require('fs');
 const path = require('path');
@@ -221,7 +224,7 @@ const { default: ArLocal } = require("arlocal");
 
 #### 2. Configure `ArLocal`, `Arweave` and `Smarteave`
 ```javascript
-// File: simple-test.js
+// File: simple-demo.js
 
 // Set up ArLocal
 const arLocal = new ArLocal(1985, false);
@@ -243,7 +246,7 @@ const smartweave = SmartWeaveNodeFactory.memCached(arweave);
 
 #### 3. Load contract source code and initial state
 ```javascript
-// File: simple-test.js
+// File: simple-demo.js
 
 const contractSrc = fs.readFileSync("_REPLACE_WITH_PATH_TO_CONTRACT_CODE_", "utf8");
 const initialState = fs.readFileSync("_REPLACE_WITH_PATH_TO_INITIAL_STATE_", "utf8");
@@ -251,7 +254,7 @@ const initialState = fs.readFileSync("_REPLACE_WITH_PATH_TO_INITIAL_STATE_", "ut
 
 #### 4. Deploy your contract to arlocal
 ```javascript
-// File: simple-test.js
+// File: simple-demo.js
 
 const contractTxId = await smartweave.createContract.deploy({
   wallet,
@@ -265,7 +268,7 @@ await mine();
 You can read more about interacting with your contracts in our [dedicated repo with examples.](https://github.com/redstone-finance/redstone-smartweave-examples)
 
 ```javascript
-// File: simple-test.js
+// File: simple-demo.js
 
 // Interacting with the contract
 const contract = smartweave
@@ -329,7 +332,7 @@ console.log(JSON.stringify(finalState, null, 2));
 
 #### 6. Shut down arlocal
 ```javascript
-// File: simple-test.js
+// File: simple-demo.js
 
 await arLocal.stop();
 ```

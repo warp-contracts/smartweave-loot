@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const Arweave = require('arweave');
+const fs = require("fs");
+const path = require("path");
+const Arweave = require("arweave");
 const { SmartWeaveNodeFactory } = require("redstone-smartweave");
 const jwk = require("../../.secrets/jwk.json");
 
@@ -11,9 +11,9 @@ const jwk = require("../../.secrets/jwk.json");
 
   // Arweave and SmartWeave initialization
   const arweave = Arweave.init({
-    host: 'arweave.net',
+    host: "arweave.net",
     port: 443,
-    protocol: 'https',
+    protocol: "https",
   });
   const smartweave = SmartWeaveNodeFactory.memCached(arweave);
 
