@@ -15,7 +15,7 @@
     "arweave": "^1.10.16",
     "core-js": "^2.6.5",
     "jest": "^27.1.1",
-    "redstone-smartweave-exp": "^0.3.10-alpha.1",
+    "redstone-smartweave": "^0.3.10-alpha.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
@@ -32,11 +32,12 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "jest-environment-node": "^27.1.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.0",
     "text-encoding": "^0.7.0",
-    "ts-jest": "^27.0.5",
     "vue-template-compiler": "^2.6.10"
+  },
+  "engines": {
+    "node": ">=12 <16"
   }
 }

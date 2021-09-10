@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Arweave = require('arweave');
-const { SmartWeaveNodeFactory } = require("redstone-smartweave-exp");
+const { SmartWeaveNodeFactory } = require("redstone-smartweave");
 const jwk = require("../../.secrets/jwk.json");
 
 (async () => {

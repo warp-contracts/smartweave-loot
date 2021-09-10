@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { default: ArLocal } = require('arlocal');
 const Arweave = require('arweave');
-const { LoggerFactory, SmartWeaveNodeFactory } = require("redstone-smartweave-exp");
+const { LoggerFactory, SmartWeaveNodeFactory } = require("redstone-smartweave");
 
 let arweave, arlocal, smartweave, contract, wallet, walletAddress;
 
@@ -74,7 +74,7 @@ describe('Testing the Loot contract', () => {
     expect(owner).toBe(walletAddress);
   });
 
-  it('Should trasfer asset to the new address', async () => {
+  it('Should transfer asset to the new address', async () => {
     await contract.writeInteraction({
       function: 'transfer',
       data: {
@@ -90,7 +90,7 @@ describe('Testing the Loot contract', () => {
     expect(owner).toBe(MOCK_ADDRESS);
   });
 
-  it('Should not trasfer asset that does not belong to sender', async () => {
+  it('Should not transfer asset that does not belong to sender', async () => {
     await contract.writeInteraction({
       function: 'transfer',
       data: {

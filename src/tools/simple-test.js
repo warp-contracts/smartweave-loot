@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Arweave = require('arweave');
-const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave-exp");
+const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave");
 const { default: ArLocal } = require("arlocal");
 
 (async () => {
@@ -43,7 +43,7 @@ const { default: ArLocal } = require("arlocal");
   console.log("State before any interactions");
   console.log(JSON.stringify(state, null, 2));
 
-  // Write intetraction
+  // Write interaction
   console.log("Sending 'generate' interaction...");
   await contract.writeInteraction({ function: "generate" });
   await mine();
@@ -61,7 +61,7 @@ const { default: ArLocal } = require("arlocal");
   const generatedAsset = generatedAssets[0];
   console.log(`Generated asset: ${generatedAsset}`);
 
-  // Transfering the asset to another address
+  // Transferring the asset to another address
   console.log("Sending 'transfer' interaction...");
   await contract.writeInteraction({
     function: "transfer",
@@ -91,6 +91,6 @@ const { default: ArLocal } = require("arlocal");
   const finalState = await contract.readState();
   console.log(JSON.stringify(finalState, null, 2));
 
-  // Shuttind down ArLocal
+  // Shutting down ArLocal
   await arLocal.stop();
 })();

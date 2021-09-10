@@ -28,5 +28,5 @@ yarn test:contracts
 
 ### Run your end-to-end tests
 ```
-npm run test:e2e
+yarn test:e2e
 ```
