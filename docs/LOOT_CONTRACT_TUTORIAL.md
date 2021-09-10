@@ -3,7 +3,7 @@
 This tutorial shows how to implement a simple loot contract on SmartWeave protocol.
 
 ### What is SmartWeave
-SmartWeave is a new generation of smart contracts built on Arweave.
+[SmartWeave](https://www.npmjs.com/package/redstone-smartweave) is a new generation of smart contracts built on Arweave.
 It uses lazy-evaluation to move the burden of contract execution from network nodes to smart contract users.
 
 ### The smart contract idea
@@ -18,12 +18,17 @@ Please feel free to contact us [on Discord](https://redstone.finance/discord) if
 ### Prerequisites
 - Prepared Node.js environment
 - `yarn` installed
-- Basic coding skills in Javascript
+- Basic Javascript coding skills
 - Basic understanding of [SmartWeave](https://www.npmjs.com/package/redstone-smartweave)
 
 ## 📦 Install dependencies
-To 
-`yarn add arweave redstone-smartweave`
+```bash
+# Install dependencies
+$ yarn add arweave redstone-smartweave
+
+# Install dev dependencies
+$ yarn add arlocal jest -D
+```
 
 ## 🧑‍💻 Implement the smart contract
 ### Start with a state
@@ -48,14 +53,14 @@ TODO
 ## 🔥 Test your contract
 I strongly recommend you to implement tests for all your smart contracts. It's generaly a good practice and it will help you to avoid silly bugs before deploying contracts to blockchain.
 
-The best way to implement tests is to use a special test framework like [JEST](https://jestjs.io/). But to keep this tutorial shorter we will implement a simple Node.js testing script. Anyway, you can check the JEST tests implementation in [tests/contracts](../tests/contracts).
+The best way to implement tests is to use a special test framework like [JEST](https://jestjs.io/). But to keep this tutorial shorter we will implement a simple Node.js testing script. It will deploy the contract, interact with it, and print some output.
 
 We will use arlocal to run a local Arweave instance. It is much faster than the real blockchain.
 And it allows to test SmartWave contracts without spending AR tokens.
 
 Let's create a new file `simple-test.js`.
 
-💡 You can see the ready-made implementation in [src/tools/simple-test.js](../src/tools/simple-test.js)
+💡 You can see the ready-made implementation of the test script in [src/tools/simple-test.js](../src/tools/simple-test.js). You can also see the better solution (JEST tests) in [tests/contracts.](../tests/contracts)
 
 #### 1.Load required modules
 ```javascript
@@ -64,11 +69,16 @@ Let's create a new file `simple-test.js`.
 const fs = require('fs');
 const path = require('path');
 const Arweave = require('arweave');
-const { SmartWeaveNodeFactory } = require("redstone-smartweave-exp");
+const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave");
 const { default: ArLocal } = require("arlocal");
+
+(async () => {
+  // the pieces of code below should be placed here
+  // because they use `await`
+})();
 ```
 
-#### 2. Configure `arlocal`, `arweave` and `smarteave`
+#### 2. Configure `ArLocal`, `Arweave` and `Smarteave`
 ```javascript
 // File: simple-test.js
 
@@ -107,7 +117,7 @@ const contractTxId = await smartweave.createContract.deploy({
   initState: initialState,
   src: contractSrc
 });
-await mine(); // We run this function 
+await mine();
 ```
 
 #### 5. Interact with your contract
@@ -127,8 +137,10 @@ console.log("State before any interactions");
 console.log(JSON.stringify(state, null, 2));
 
 // Write intetraction
+console.log("Sending 'generate' interaction...");
 await contract.writeInteraction({ function: "generate" });
 await mine();
+console.log("Interaction has been sent");
 
 // Read state after interaction
 const stateAfterInteraction = await contract.readState();
@@ -143,6 +155,7 @@ const generatedAsset = generatedAssets[0];
 console.log(`Generated asset: ${generatedAsset}`);
 
 // Transfering the asset to another address
+console.log("Sending 'transfer' interaction...");
 await contract.writeInteraction({
   function: "transfer",
   data: {
@@ -151,6 +164,7 @@ await contract.writeInteraction({
   },
 });
 await mine();
+console.log("Interaction has been sent");
 
 // Getting the new owner of the asset
 const { result: newOwner } = await contract.viewState({
@@ -160,10 +174,13 @@ const { result: newOwner } = await contract.viewState({
 console.log(`New owner of the asset ${generatedAsset}: ${newOwner}`);
 
 // Generating the new asset
+console.log("Sending 'generate' interaction...");
 await contract.writeInteraction({ function: "generate" });
 await mine();
+console.log("Interaction has been sent");
 
 // Getting the final state
+console.log(`Getting final state`);
 const finalState = await contract.readState();
 console.log(JSON.stringify(finalState, null, 2));
 
@@ -177,13 +194,11 @@ console.log(JSON.stringify(finalState, null, 2));
 await arLocal.stop();
 ```
 
-
-
 ## 🔒 Deploy your contract
-The code for deploying smart contract to the Arweave blockchain is very similar to the one that we've used in testing script. You can see an example of deployment script in [src/tools/deploy-contracts.js.](../src/tools/deploy-contracts.js).
+The smart contract deployment code is very similar to the one that we've used in the testing script. You can see an example of the deployment script in [src/tools/deploy-contracts.js.](../src/tools/deploy-contracts.js).
 
 After running the deployment script the contract transaction Id will be printed.
-It should be mined on Arweave in about 20-30 minutes. You can check th transaction status in https://viewblock.io.
+This transaction should be mined on Arweave in about 20-30 minutes. You can check its status on [Viewblock.](https://viewblock.io)
 
 ## 🔥 Interact with the deployed contract
 To learn how to interact with your deployed contract, check out our [dedicated repo with examples.](https://github.com/redstone-finance/redstone-smartweave-examples)

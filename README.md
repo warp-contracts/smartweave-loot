@@ -1,28 +1,29 @@
 # smartweave-loot
 
+A simple [LOOT](https://www.lootproject.com/)-like contract, which allows to generate and transfer different magical assets, like for example `black silver sword` or `blue gold crown`. Each asset will be unique and can belong to only one wallet at a time.
+
+Initially there are no generated assets, but users will be able to generate and claim them.
+Users also will be able to transfer their assets to others.
+
+### 🙋‍♂️ Need help?
+Please feel free to contact us [on Discord](https://redstone.finance/discord) if you have any questions.
+
+## Implementation guide
+Check out the implementation guide [here](./docs/LOOT_CONTRACT_TUTORIAL.md)
+
 ## Project setup
 ```
-npm install
+yarn
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn serve
 ```
 
-### Compiles and minifies for production
+### Run contract tests
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your unit tests
-```
-npm run test:unit
+yarn test:contracts
 ```
 
 ### Run your end-to-end tests
