@@ -25,3 +25,5 @@ yarn-error.log*
 
 # Custom files and folders
 .secrets
+
+.vercel

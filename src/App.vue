@@ -1,12 +1,36 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <main>
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/assets">All assets</router-link> |
+        <router-link to="/my-assets">My assets</router-link>
+      </div>
+      <v-app>
+        <router-view/>
+      </v-app>
+    </main>
+    
+    <footer>
+      <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+    </footer>
   </div>
 </template>
+
+<script>
+import { mapActions } from 'vuex';
+
+export default {
+  name: 'App',
+  beforeMount() {
+    this.loadState()
+  },
+  methods: {
+    ...mapActions(['loadState']),
+  }
+}
+</script>
+
 
 <style lang="scss">
 #app {
@@ -26,4 +50,21 @@
     }
   }
 }
+
+main {
+  min-height: calc(100vh - 40px);
+}
+
+footer {
+  min-height: 40px;
+  background: #dedede;
+  width: 100%;
+  font-size: 12px;
+  padding: 10px;
+  color: black;
+  a {
+    color: black;
+  }
+}
+
 </style>

@@ -1,5 +1,8 @@
 const Arweave = require('arweave');
 const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave");
+const wallet = require("../../.secrets/jwk.json");
+
+const PROD_LOOT_CONTRACT_ADDRESS = "GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU";
 
 (async () => {
   // Set up Arweave client
@@ -8,7 +11,6 @@ const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave");
     port: 443,
     protocol: 'https',
   });
-  const wallet = require("../../.secrets/jwk.json");
 
   // Set up SmartWeave client
   LoggerFactory.INST.logLevel('error');
@@ -16,7 +18,7 @@ const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave");
 
   // Interacting with the contract
   const contract = smartweave
-    .contract("GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU")
+    .contract(PROD_LOOT_CONTRACT_ADDRESS)
     .connect(wallet)
     .setEvaluationOptions({
       waitForConfirmation: true,
