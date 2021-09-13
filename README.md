@@ -1,5 +1,9 @@
 # smartweave-loot
 
+## Link to live app
+Visit [loot.redstone.finance](https://loot.redstone.finance)
+
+## Description
 A simple [LOOT](https://www.lootproject.com/)-like contract, which allows to generate and transfer different magical assets, like for example `black silver sword` or `blue gold crown`. Each asset will be unique and can belong to only one wallet at a time.
 
 Initially there are no generated assets, but users will be able to generate and claim them.

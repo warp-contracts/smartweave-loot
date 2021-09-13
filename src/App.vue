@@ -6,12 +6,11 @@
         <router-link to="/assets">All assets</router-link> |
         <router-link to="/my-assets">My assets</router-link>
       </div>
-      <v-app>
-        <router-view/>
-      </v-app>
+      <router-view/>
     </main>
     
     <footer>
+      <div class="bigger-text-in-footer">This web app was made with 💙 by <a href="https://twitter.com/intent/follow?screen_name=redstone_defi" target="_blank">RedStone</a></div>
       <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
     </footer>
   </div>
@@ -52,18 +51,26 @@ export default {
 }
 
 main {
-  min-height: calc(100vh - 40px);
+  min-height: calc(100vh - 100px);
 }
 
 footer {
-  min-height: 40px;
-  background: #dedede;
+  min-height: 100px;
+  background: #ededed;
   width: 100%;
   font-size: 12px;
   padding: 10px;
   color: black;
   a {
     color: black;
+  }
+
+  .bigger-text-in-footer {
+    font-size: 14px;
+  }
+
+  div {
+    margin: 10px;
   }
 }
 

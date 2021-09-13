@@ -1,8 +1,8 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>About smartweave-loot</h1>
     <p>
-      A simple LOOT-like contract, which allows to generate and transfer different magical assets, like for example black silver sword or blue gold crown.
+      A simple <a href="https://www.lootproject.com/" target="_blank">LOOT</a>-like contract, which allows to generate and transfer different magical assets, like a "black silver sword" or a "blue gold crown".
       Each asset will be unique and can belong to only one wallet at a time.
       Initially there are no generated assets, but users will be able to generate and claim them. Users also will be able to transfer their assets to others.
     </p>
@@ -51,6 +51,7 @@ p {
   text-align: left;
 }
 
+
 .links {
   margin-top: 30px;
 }
@@ -72,7 +73,14 @@ a.link {
   &:hover {
     transform: scale(1.02);
     border-color: #0F9D58;
+  }
+}
+
+a {
+  color: black;
+  &:hover {
     color: #0F9D58;
   }
 }
+
 </style>

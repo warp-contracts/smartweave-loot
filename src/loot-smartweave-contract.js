@@ -1,7 +1,6 @@
 import Arweave from 'arweave'
 import { SmartWeaveWebFactory, LoggerFactory } from 'redstone-smartweave'
-
-const PROD_LOOT_CONTRACT_ADDRESS = 'GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU'
+import deployedContracts from './deployed-contracts.json'
 
 // Set up Arweave client
 const arweave = Arweave.init({
@@ -16,7 +15,7 @@ const smartweave = SmartWeaveWebFactory.memCached(arweave)
 
 // Interacting with the contract
 const contract = smartweave
-  .contract(PROD_LOOT_CONTRACT_ADDRESS)
+  .contract(deployedContracts.loot)
   .connect('use_wallet')
   .setEvaluationOptions({
     waitForConfirmation: true,

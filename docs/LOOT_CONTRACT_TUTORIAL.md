@@ -13,7 +13,7 @@ Initially there are no generated assets, but users will be able to generate and 
 Users also will be able to transfer their assets to others.
 
 ### Deployed version
-We've already deployed this contract on the Arweave blockchain. Its transaction id is [GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU](https://viewblock.io/arweave/address/GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU). You can check its source code on the [Arweave Blockchain.](https://ms6a6h7htp3sq6ovqe36awtsek3vhd4tz642m6jbj4sp2qmjsr4a.arweave.net/ZLwPH-eb9yh51YE34FpyIrdTj5PPuaZ5IU8k_UGJlHg)
+We've already deployed this contract on the Arweave blockchain. Its transaction id is [Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY](https://viewblock.io/arweave/address/Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY). You can check its source code on the [Arweave Blockchain.](https://ld27fm4mscl2niqzpfqtrxpin5ltmkh37t7l2nmrbmoq2embqefa.arweave.net/WPXys4yQl6aiGXlhON3ob1c2KPv8_r01kQsdDRGBgQo)
 
 ### 🙋‍♂️ Need help?
 Please feel free to contact us [on Discord](https://redstone.finance/discord) if you have any questions.
@@ -150,7 +150,10 @@ But it would need a help function `getRandomIntNumber` for random number generat
 // file: contract.js
 
 function bigIntFromBytes(byteArr) {
-  const hexString = byteArr.toString("hex");
+  let hexString = "";
+  for (const byte of byteArr) {
+    hexString += byte.toString(16).padStart(2, '0');
+  }
   return BigInt("0x" + hexString);
 }
 
@@ -204,7 +207,11 @@ And it allows to test SmartWave contracts without spending AR tokens.
 
 Let's create a new file `simple-demo.js`.
 
-💡 You can see the ready-made implementation of the test script in [src/tools/simple-demo.js](../src/tools/simple-demo.js). You can also see a better solution (JEST tests) in [tests/contracts.](../tests/contracts)
+### Implemented tests
+You can see the ready-made implementation of the test script in [src/tools/simple-demo.js](../src/tools/simple-demo.js). You can also see a better solution (JEST tests) in [tests/contracts.](../tests/contracts)
+
+### Test in node and browser environments
+You should test your contracts in both browser and Node.js environments, so that your users are able to use them anywhere. Pay special attention to using such globals as `Buffer`, `ArrayBuffer` or `Uint8Array` that may work differently in different environments.
 
 #### 1.Load required modules
 ```javascript

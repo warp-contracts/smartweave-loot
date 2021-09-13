@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "test:contracts": "jest tests/contracts"
+    "test:contracts": "yarn test:contracts:node && yarn test:contracts:browser",
+    "test:contracts:node": "jest tests/contracts",
+    "test:contracts:browser": "jest tests/contracts --config ./jest.browser.config.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -36,6 +38,7 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "jest-environment-jsdom": "^27.2.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.0",
     "text-encoding": "^0.7.0",

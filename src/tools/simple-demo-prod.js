@@ -1,8 +1,7 @@
 const Arweave = require('arweave');
 const { SmartWeaveNodeFactory, LoggerFactory } = require("redstone-smartweave");
 const wallet = require("../../.secrets/jwk.json");
-
-const PROD_LOOT_CONTRACT_ADDRESS = "GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU";
+const { loot: lootContractAddress } = require("../deployed-contracts.json");
 
 (async () => {
   // Set up Arweave client
@@ -18,7 +17,7 @@ const PROD_LOOT_CONTRACT_ADDRESS = "GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU"
 
   // Interacting with the contract
   const contract = smartweave
-    .contract(PROD_LOOT_CONTRACT_ADDRESS)
+    .contract(lootContractAddress)
     .connect(wallet)
     .setEvaluationOptions({
       waitForConfirmation: true,

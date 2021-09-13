@@ -5,7 +5,10 @@ export async function handle(state, action) {
   const ITEMS = ["sword", "shield", "robe", "stone", "crown", "katana", "dragon", "ring", "axe", "hammer"];
 
   function bigIntFromBytes(byteArr) {
-    const hexString = byteArr.toString("hex");
+    let hexString = "";
+    for (const byte of byteArr) {
+      hexString += byte.toString(16).padStart(2, '0');
+    }
     return BigInt("0x" + hexString);
   }
 

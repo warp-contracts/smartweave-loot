@@ -81,7 +81,8 @@ export default {
 <style scoped lang="scss">
 
 .assets-container {
-margin-top: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   column-gap: 30px;
   row-gap: 30px;
