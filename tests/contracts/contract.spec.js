@@ -1,19 +1,3 @@
-// function toHexString(byteArray) {
-//   return Array.from(byteArray, function(byte) {
-//     return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-//   }).join('')
-// }
-
-// const originalToString = Uint8Array.prototype.toString;
-// Uint8Array.prototype.toString = function(...params) {
-//   if (params[0] == "hex") {
-//     return toHexString(this);
-//   } else {
-//     return originalToString(...params).bind(this);
-//   }
-// }
-
-
 const fs = require('fs');
 const path = require('path');
 const { default: ArLocal } = require('arlocal');
