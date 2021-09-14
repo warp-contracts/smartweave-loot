@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "ar-gql": "^0.0.6",
     "arlocal": "^1.0.36",
     "arweave": "^1.10.16",
     "core-js": "^2.6.5",

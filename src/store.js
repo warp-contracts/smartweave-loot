@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import contract from './loot-smartweave-contract'
+import contract, { arweave } from './loot-smartweave-contract'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     contract,
+    arweave,
     state: {},
     validity: {},
     loadingAssets: false,

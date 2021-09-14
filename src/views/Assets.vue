@@ -62,8 +62,8 @@ export default {
 </script>
 
 <style>
-.checkbox-container label {
-  left: 8px;
+label.v-label {
+  left: 10px !important;
   top: 1px;
 }
 

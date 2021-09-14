@@ -50,6 +50,34 @@
       </div>
       <Assets v-if="walletLoaded && !loadingAssets" :includeAssets="myAssets" />
     </div>
+
+    <div class="transactions" v-if="walletLoaded && address">
+      <h2>My transactions</h2>
+      <p class="small-notice">
+        You may notice that some of your transactions failed.
+        It's an expected behaviour. When you generate a new asset a random asset is selected.
+        The selected asset may already be owned by another owner. In this case you don't get any assets.
+        This means that the more assets are already generated, the more dificult is to get a new one.
+      </p>
+      <div v-if="loadingTransactions">
+        Loading transactions...
+      </div>
+      <div v-for="transaction in userTransactions" :key="transaction.id" class="transaction">
+        <div class="transaction-id">
+          <a target="_blank" :href="'https://viewblock.io/arweave/tx/' + transaction.id">
+            {{ transaction.id }}
+          </a>
+        </div>
+        <div class="transaction-status">
+          <div v-if="transaction.status == 'success'" style="color: green">
+            {{ transaction.status }}
+          </div>
+          <div v-else style="color: black">
+            {{ transaction.status }}
+          </div>
+        </div>
+      </div>
+    </div>
     
   </div>
 </template>
@@ -58,6 +86,10 @@
 import Assets from '@/components/Assets.vue'
 import { mapState, mapActions } from 'vuex'
 import item from '@/components/Asset.vue'
+import { run } from 'ar-gql'
+import deployedContracts from '@/deployed-contracts.json'
+
+const LAST_BLOCKS_TO_CHECK = 30000;
 
 export default {
   name: 'AssetsPage',
@@ -67,17 +99,20 @@ export default {
       walletLoaded: false,
       arConnectInstalled: !!window.arweaveWallet,
       address: '',
+      loadingTransactions: false,
       item,
       items: Array.from(Array(1000).keys()).map(i => ({
         id: i,
         color: i,
       })),
       sendingTx: false,
+      userTransactions: [],
     }
   },
 
   timers: {
     checkArConnect: { time: 100, autostart: true, immediate: true, repeat: true },
+    loadUserTransactions: { time: 2000, autostart: true, repeat: false },
   },
 
   methods: {
@@ -88,6 +123,48 @@ export default {
       if (this.arConnectInstalled) {
         this.connectToArconnect()
         this.$timer.stop('checkArConnect')
+      }
+    },
+
+    async loadUserTransactions() {
+      if (this.address) {
+        this.loadingTransactions = true
+        const networkInfo = await this.arweave.network.getInfo();
+
+        const minBlock = networkInfo.height - LAST_BLOCKS_TO_CHECK;
+
+        const query = `
+        {
+          transactions(
+            tags: [
+              { name: "Contract", values: "${deployedContracts.loot}" }
+              { name: "App-Name", values: "SmartWeaveAction" }
+            ]
+            block: { min: ${minBlock} }
+            owners: ["${this.address}"]
+            first: 100
+          ) {
+            edges {
+              node {
+                tags {
+                  name
+                  value
+                }
+                id
+              }
+            }
+          }
+        }`
+
+        const res = (await run(query)).data.transactions.edges
+
+        this.loadingTransactions = false
+
+        this.userTransactions = res.map(el => {
+          const id = el.node.id
+          const status = this.validity[id] ? 'success': 'error'
+          return { id, status }
+        })
       }
     },
     
@@ -143,7 +220,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['state', 'contract', 'loadingAssets']),
+    ...mapState(['state', 'validity', 'contract', 'loadingAssets', 'arweave']),
 
     myAssets() {
       if (!this.state.assets) {
@@ -159,6 +236,14 @@ export default {
         }
       }
       return result
+    },
+
+    userTransactionsCount() {
+      if (!this.address) {
+        return 0
+      } else {
+        return this.userTransactions.length
+      }
     },
 
     notificationText() {
@@ -218,6 +303,40 @@ a {
   text-align: center;
   font-size: 12px;
 }
+
+.transactions {
+  margin: 30px auto;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .small-notice {
+    width: 450px;
+    margin: 20px auto;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .transaction {
+    text-align: left;
+    padding: 5px 10px;
+    margin-top: 20px;
+    width: 450px;
+    display: grid;
+    grid-template-columns: 300px auto;
+    margin: auto;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 10px;
+    margin-bottom: 10px;
+
+    .transaction-status {
+      text-align: right;
+    }
+  }
+}
+
 
 
 </style>

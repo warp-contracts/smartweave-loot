@@ -3,7 +3,7 @@ import { SmartWeaveWebFactory, LoggerFactory } from 'redstone-smartweave'
 import deployedContracts from './deployed-contracts.json'
 
 // Set up Arweave client
-const arweave = Arweave.init({
+export const arweave = Arweave.init({
   host: 'arweave.net',
   port: 443,
   protocol: 'https',

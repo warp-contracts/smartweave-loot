@@ -44,8 +44,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.about {
+  padding: 10px;
+}
+
 p {
   width: 500px;
+  max-width: 90vw;
   margin: auto;
   margin-top: 30px;
   text-align: left;

@@ -2359,6 +2359,13 @@ aproba@^1.0.3, aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
+ar-gql@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/ar-gql/-/ar-gql-0.0.6.tgz#ebb313195c092f27a997440a2835060feaf8df81"
+  integrity sha512-eXKsXGQcx8uwxwlFJzBXA17Qsg+Gty6tcp85IB5SX1iop7NsXLQ/iH2WEz69NCz2/Zcb81C1QryIiNTgw0/4aA==
+  dependencies:
+    axios "^0.21.1"
+
 arch@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/arch/-/arch-2.1.1.tgz#8f5c2731aa35a30929221bb0640eed65175ec84e"
