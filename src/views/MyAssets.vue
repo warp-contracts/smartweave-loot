@@ -22,7 +22,7 @@
     </div>
 
     <div v-if="sendingTx" class="tx-sending notification">
-      Your transaction is being sending. Please wait for about 20 minutes for it to be confirmed.
+      Your transaction has been sent. Please wait for about 20 minutes for it to be confirmed.
       You can close this page and come back any time. It also shoud appear on
       <a :href="'https://viewblock.io/arweave/address/' + address" target="_blank">
         Viewblock
