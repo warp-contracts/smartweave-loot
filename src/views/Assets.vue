@@ -2,15 +2,18 @@
   <div>
 
     <div class="generated-assets">
-      <h2>Generated assets</h2>
-      <div class="checkbox-container">
+      <h2>Generated assets ({{ generatedAssets.length }})</h2>
+      <div v-if="!loadingAssets" class="checkbox-container">
         <v-checkbox
           size="small"
           v-model="showNotGenerated"
-          label="Show not generated assets"
+          label="Show available assets"
         ></v-checkbox>
       </div>
-      <Assets :showNotGeneratedAssets="false" :includeAssets="generatedAssets" :excludeAssets="[]" />
+      <div v-if="loadingAssets">
+        <vue-loaders-ball-beat color="gray" scale="1"></vue-loaders-ball-beat>
+      </div>
+      <Assets v-else :showNotGeneratedAssets="false" :includeAssets="generatedAssets" :excludeAssets="[]" />
     </div>
 
     <div v-if="showNotGenerated" class="line-container">
@@ -19,7 +22,7 @@
     
 
     <div v-if="showNotGenerated" class="not-generated-assets">
-      <h2>Available assets</h2>
+      <h2>Available assets ({{ 1000 - generatedAssets.length }})</h2>
       <Assets :showNotGeneratedAssets="true"  :excludeAssets="generatedAssets" />
     </div>
   </div>
@@ -40,7 +43,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['state', 'validity']),
+    ...mapState(['state', 'validity', 'loadingAssets']),
     generatedAssets() {
       if (this.state.assets) {
         return Object.entries(this.state.assets).map(([name, owner]) => ({
@@ -57,6 +60,14 @@ export default {
   },
 }
 </script>
+
+<style>
+.checkbox-container label {
+  left: 8px;
+  top: 1px;
+}
+
+</style>
 
 <style lang="scss" scoped>
 

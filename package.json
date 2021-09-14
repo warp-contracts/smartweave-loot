@@ -21,7 +21,11 @@
     "jest": "^27.1.1",
     "redstone-smartweave": "^0.3.10-alpha.5",
     "vue": "^2.6.10",
+    "vue-loaders": "^4.1.4",
+    "vue-observe-visibility": "^1.0.0",
     "vue-router": "^3.0.3",
+    "vue-timers": "^2.0.4",
+    "vue-virtual-scroll-list": "^2.3.3",
     "vue-virtual-scroller": "^1.0.10",
     "vuetify": "^2.4.0",
     "vuex": "^3.0.1"

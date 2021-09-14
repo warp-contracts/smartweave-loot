@@ -22,7 +22,7 @@ export default {
     return {
       links: [
         {
-          title: 'Source code',
+          title: 'Source code on GitHub',
           href: 'https://github.com/redstone-finance/smartweave-loot'
         },
         {
@@ -31,11 +31,11 @@ export default {
         },
         {
           title: 'Smart contract on Viewblock',
-          href: 'https://viewblock.io/arweave/address/GAiZjVrjVcYcVHDrw1hqKsdk3_4IXoF0V-cSLJFiXXU'
+          href: 'https://viewblock.io/arweave/address/Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY'
         },
         {
           title: 'Smart contract source code',
-          href: 'https://ms6a6h7htp3sq6ovqe36awtsek3vhd4tz642m6jbj4sp2qmjsr4a.arweave.net/ZLwPH-eb9yh51YE34FpyIrdTj5PPuaZ5IU8k_UGJlHg'
+          href: 'https://ld27fm4mscl2niqzpfqtrxpin5ltmkh37t7l2nmrbmoq2embqefa.arweave.net/WPXys4yQl6aiGXlhON3ob1c2KPv8_r01kQsdDRGBgQo'
         }
       ]
     }

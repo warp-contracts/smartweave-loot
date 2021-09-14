@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     contract,
     state: {},
-    validity: {}
+    validity: {},
+    loadingAssets: false,
   },
   mutations: {
     setState(state, swState) {
@@ -19,11 +20,17 @@ export default new Vuex.Store({
       state.validity = validity
     },
 
+    setLoadingAssets(state, val) {
+      state.loadingAssets = val
+    },
+
   },
   actions: {
     async loadState({ commit }) {
+      commit('setLoadingAssets', true)
       const { state, validity } = await contract.readState()
       commit('setState', state)
+      commit('setLoadingAssets', false)
       commit('setValidity', validity)
     }
   }

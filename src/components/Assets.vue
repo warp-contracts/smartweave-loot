@@ -1,9 +1,11 @@
 <template>
   <div>
       <div class="assets-container">
-        <div class="asset-wrapper" v-for="(asset, index) in assets" :key="index">
+        <div class="asset-wrapper" v-for="(asset, index) in assetsToShow" :key="index">
           <Asset :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" />
         </div>
+      </div>
+      <div v-observe-visibility="showMoreAssets" class="load-more-container">
       </div>
   </div>
 </template>
@@ -28,6 +30,8 @@ function assetToStr(color, material, item) {
   return `${color} ${material} ${item}`
 }
 
+const ASSETS_VISIBLE_CHUNK_SIZE = 30;
+
 export default {
   name: "Assets",
 
@@ -38,7 +42,29 @@ export default {
   },
 
   data() {
-    return {}
+    return {
+      visibleAssets: {},
+    }
+  },
+
+  methods: {
+    showMoreAssets() {
+      let counter = 0;
+      const newVisibleAssets = { ...this.visibleAssets }
+
+      for (const asset of this.assets) {
+        if (counter >= ASSETS_VISIBLE_CHUNK_SIZE) {
+          break;
+        }
+
+        if (!newVisibleAssets[asset.id]) {
+          newVisibleAssets[asset.id] = asset;
+          counter++;
+        }
+      }
+
+      this.visibleAssets = newVisibleAssets;
+    },
   },
 
   computed: {
@@ -54,6 +80,7 @@ export default {
                   color,
                   material,
                   item,
+                  id: asset,
                 })
               }
             }
@@ -62,6 +89,7 @@ export default {
       } else {
         for (const asset of this.includeAssets) {
           result.push({
+            id: asset.name,
             owner: asset.owner,
             ...assetNameToObj(asset.name)
           })
@@ -69,6 +97,17 @@ export default {
       }
       
       return result
+    },
+
+    assetsToShow() {
+      return Object.values(this.visibleAssets)
+    },
+  },
+
+  watch: {
+    includeAssets() {
+      this.visibleAssets = {}
+      this.showMoreAssets()
     }
   },
 

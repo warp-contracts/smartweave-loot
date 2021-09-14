@@ -1,16 +1,20 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueVirtualScroller from 'vue-virtual-scroller'
+import VueTimers from 'vue-timers'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import VueLoaders from 'vue-loaders'
+import { ObserveVisibility } from 'vue-observe-visibility'
 import '@babel/polyfill'
-import './to-hex-polyfill'
+import 'vue-loaders/dist/vue-loaders.css'
 
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-
-Vue.use(VueVirtualScroller)
 Vue.config.productionTip = false
+
+Vue.directive('observe-visibility', ObserveVisibility)
+
+Vue.use(VueTimers)
+Vue.use(VueLoaders)
 
 Vue.filter('short-address', function(val) {
   if (val) {
