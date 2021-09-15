@@ -1,5 +1,13 @@
 import Arweave from 'arweave'
-import { SmartWeaveWebFactory, LoggerFactory } from 'redstone-smartweave'
+import {
+  LoggerFactory,
+  ContractDefinitionLoader,
+  // ContractInteractionsLoader,
+  // CacheableContractInteractionsLoader,
+  SmartWeaveWebFactory,
+} from 'redstone-smartweave'
+import LocalStorageCache from "@/cache/cache"
+// import LocalStorageBlockHeightCache from "@/cache/block-height-cache"
 import deployedContracts from './deployed-contracts.json'
 
 // Set up Arweave client
@@ -11,7 +19,18 @@ export const arweave = Arweave.init({
 
 // Set up SmartWeave client
 LoggerFactory.INST.logLevel('silly')
-const smartweave = SmartWeaveWebFactory.memCached(arweave)
+
+const contractDefinitionLoader = new ContractDefinitionLoader(arweave, new LocalStorageCache("_REDSTONE_LOOT_APP_"))
+// const contractInteractionsLoader = new CacheableContractInteractionsLoader(
+//   new ContractInteractionsLoader(arweave),
+//   new LocalStorageBlockHeightCache("_REDSTONE_LOOT_APP_INTERACTIONS_")
+// )
+const smartweave = SmartWeaveWebFactory.memCachedBased(arweave)
+  .setDefinitionLoader(contractDefinitionLoader)
+  // .setInteractionsLoader(contractInteractionsLoader)
+  .build();
+
+// const smartweave = SmartWeaveWebFactory.memCached(arweave)
 
 // Interacting with the contract
 const contract = smartweave
