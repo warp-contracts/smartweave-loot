@@ -1,21 +1,26 @@
 <template>
   <div class="asset-container">
     <div class="asset-image-container" :style="borderColorStyle">
-      <!-- <img class="asset" :src="imageBase64" /> -->
       <img class="asset" :style="imageCss" :src="`items/${item}.png`" />
     </div>
     <div class="asset-title-container">
-      <h3>{{ color }} {{ material }} {{ item }}</h3>
+      <h3>{{ title }}</h3>
     </div>
     <div v-if="owner" class="owned-by-container">
       Owned by
       <a target="_blank" :href="getViewblockLink(owner)">{{ owner | short-address }}</a>
+    </div>
+    <div v-if="allowTransfer" class="transfer-button">
+      <v-btn @click="transferButtonClicked()" outlined small>Transfer</v-btn>
     </div>
   </div>
 </template>
 
 <script>
 import { getCssForColor } from '@/helpers/color-solver'
+import { mapState } from 'vuex'
+
+const ARWEAVE_ADDRESS_LENGTH = 43
 
 const MATERIAL_COLORS = {
   'gold': '#FFD700',
@@ -50,6 +55,7 @@ export default {
     color: String,
     material: String,
     owner: String,
+    allowTransfer: Boolean,
   },
   data() {
     return {
@@ -84,10 +90,40 @@ export default {
     getViewblockLink(address) {
       return `https://viewblock.io/arweave/address/${address}`
     },
+    async transferButtonClicked() {
+      const confirmed = confirm(`Are you sure you want to transfer "${this.title}"? After the transfer you will not own this item anymore.`)
+      if (confirmed) {
+        const address = prompt('Please provide the recepient\'s Arweave wallet address')
+        if (!address || address.length !== ARWEAVE_ADDRESS_LENGTH) {
+          alert(`Provided address "${address} is incorrect`)
+        } else {
+          const addressConfirmed = confirm(`Just the last check. You are going to transfer "${this.title}" to address: "${address}", right?`)
+          if (addressConfirmed) {
+            const txId = await this.contract.writeInteraction({
+              function: 'transfer',
+              data: {
+                to: address,
+                asset: this.title,
+              }
+            })
+            alert("Your transfer transaction has been sent. It should appear on vieblock in ~20 minutes. Your transaction id: " + txId)
+          } else {
+            alert("No problem, transfer cancelled")
+          }
+        }
+      } else {
+        alert("No problem, transfer cancelled")
+      }
+      
+    },
   },
   computed: {
+    ...mapState(['contract']),
     borderColorStyle() {
       return { 'box-shadow': `inset 0 0 15px ${NICE_COLORS[this.color]}` }
+    },
+    title() {
+      return `${this.color} ${this.material} ${this.item}`
     },
     imageCss() {
       const materialColor = MATERIAL_COLORS[this.material] || '#000000'
@@ -118,6 +154,11 @@ export default {
     a {
       color: #0F9D58;
     }
+  }
+
+  .transfer-button {
+    margin-top: 15px;
+    margin-bottom: 5px;
   }
 
 

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import About from './views/About.vue'
 import Assets from './views/Assets.vue'
 import MyAssets from './views/MyAssets.vue'
+import CorrectState from './views/CorrectState.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/my-assets',
       name: 'my-assets',
       component: MyAssets
+    },
+    {
+      path: '/correct-loot-contract-state',
+      name: 'state',
+      component: CorrectState
     },
   ]
 })

@@ -2,7 +2,7 @@
   <div>
       <div class="assets-container">
         <div class="asset-wrapper" v-for="(asset, index) in assetsToShow" :key="index">
-          <Asset :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" />
+          <Asset :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" :allowTransfer="allowTransfer" />
         </div>
       </div>
       <div v-observe-visibility="showMoreAssets" class="load-more-container">
@@ -39,6 +39,7 @@ export default {
     includeAssets: Array,
     showNotGeneratedAssets: Boolean,
     excludeAssets: Array,
+    allowTransfer: Boolean,
   },
 
   data() {

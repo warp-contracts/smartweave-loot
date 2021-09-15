@@ -1,6 +1,11 @@
 <template>
   <div>
 
+    <div class="notification warning">
+      Viewblock may display incorrect state because of caching and incorrect interactions ordering.
+      See the <a href="/#/correct-loot-contract-state">latest and correct state in our app</a>
+    </div>
+
     <div v-if="address" class="address-container notification">
       Your address:
       <a :href="'https://viewblock.io/arweave/address/' + address" target="_blank">
@@ -48,10 +53,10 @@
       <div v-if="walletLoaded && loadingAssets">
         <vue-loaders-ball-beat color="gray" scale="1"></vue-loaders-ball-beat>
       </div>
-      <Assets v-if="walletLoaded && !loadingAssets" :includeAssets="myAssets" />
+      <Assets v-if="walletLoaded && !loadingAssets" :includeAssets="myAssets" :allowTransfer="true" />
     </div>
 
-    <div class="transactions" v-if="walletLoaded && address">
+    <div class="transactions" v-if="walletLoaded && address && !loadingAssets">
       <h2>My transactions</h2>
       <p class="small-notice">
         You may notice that some of your transactions failed.
@@ -106,13 +111,16 @@ export default {
         color: i,
       })),
       sendingTx: false,
-      userTransactions: [],
+      userTransactionIds: [],
     }
   },
 
   timers: {
     checkArConnect: { time: 100, autostart: true, immediate: true, repeat: true },
-    loadUserTransactions: { time: 2000, autostart: true, repeat: false },
+  },
+
+  mounted() {
+    this.loadUserTransactions()
   },
 
   methods: {
@@ -160,26 +168,20 @@ export default {
 
         this.loadingTransactions = false
 
-        this.userTransactions = res.map(el => {
-          const id = el.node.id
-          const status = this.validity[id] ? 'success': 'error'
-          return { id, status }
-        })
+        this.userTransactionIds = res.map(el => el.node.id)
+        // {
+        //   const id = 
+        //   const status = this.validity[id] ? 'success': 'error'
+        //   return { id, status }
       }
     },
     
     async generateLoot() {
-      try {
-        console.log('Sending transaction')
-        this.sendingTx = true
-        await this.contract.writeInteraction({
-          function: 'generate'
-        })
-        console.log('Tx sent')
-        await this.loadState()
-      } finally {
-        this.sendingTx = false
-      }
+      console.log('Sending transaction')
+      this.sendingTx = true
+      await this.contract.writeInteraction({
+        function: 'generate'
+      })
     },
 
     async connectToArconnect() {
@@ -246,6 +248,17 @@ export default {
       }
     },
 
+    userTransactions() {
+      if (this.userTransactionIds && this.userTransactionIds.length > 0) {
+        return this.userTransactionIds.map(id => ({
+          id,
+          status: this.validity[id] ? 'success': 'error'
+        }))
+      } else {
+        return []
+      }
+    },
+
     notificationText() {
       if (!this.walletLoaded) {
         return 'Please connect your ArConnect wallet to this app for being able to see your loots and generate new loots.'
@@ -260,6 +273,12 @@ export default {
       } else {
         return 'download-arconnect'
       }
+    },
+  },
+
+  watch: {
+    address() {
+      this.loadUserTransactions()
     },
   },
 
