@@ -1,15 +1,10 @@
 import Arweave from 'arweave'
 import {
   LoggerFactory,
-  CacheableExecutorFactory,
-  CacheableStateEvaluator,
   ContractDefinitionLoader,
   ContractInteractionsLoader,
-  HandlerExecutorFactory,
-  LexicographicalInteractionsSorter,
-  MemCache,
-  SmartWeave,
-  // SmartWeaveWebFactory,
+  CacheableContractInteractionsLoader,
+  SmartWeaveWebFactory,
 } from 'redstone-smartweave'
 import LocalStorageCache from "@/cache/cache"
 import LocalStorageBlockHeightCache from "@/cache/block-height-cache"
@@ -26,17 +21,13 @@ export const arweave = Arweave.init({
 LoggerFactory.INST.logLevel('silly')
 
 const contractDefinitionLoader = new ContractDefinitionLoader(arweave, new LocalStorageCache("_REDSTONE_LOOT_APP_"))
-const contractInteractionsLoader = new ContractInteractionsLoader(arweave)
-const cacheableExecutorFactory = new CacheableExecutorFactory(arweave, new HandlerExecutorFactory(arweave), new MemCache())
-const cacheableStateEvaluator = new CacheableStateEvaluator(arweave, new LocalStorageBlockHeightCache("_REDSTONE_LOOT_APP_STATE_"))
-const lexicographicalInteractionsSorter = new LexicographicalInteractionsSorter(arweave)
-
-const smartweave = SmartWeave.builder(arweave)
-  .setInteractionsLoader(contractInteractionsLoader)
-  .setInteractionsSorter(lexicographicalInteractionsSorter)
+const contractInteractionsLoader = new CacheableContractInteractionsLoader(
+  new ContractInteractionsLoader(arweave),
+  new LocalStorageBlockHeightCache("_REDSTONE_LOOT_APP_INTERACTIONS_")
+)
+const smartweave = SmartWeaveWebFactory.memCachedBased(arweave)
   .setDefinitionLoader(contractDefinitionLoader)
-  .setExecutorFactory(cacheableExecutorFactory)
-  .setStateEvaluator(cacheableStateEvaluator)
+  .setInteractionsLoader(contractInteractionsLoader)
   .build();
 
 // const smartweave = SmartWeaveWebFactory.memCached(arweave)
