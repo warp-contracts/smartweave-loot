@@ -4,9 +4,8 @@
       <div id="nav">
         <router-link to="/">Home</router-link> |
         <router-link to="/assets">All assets</router-link> |
-        <router-link to="/my-assets">My assets</router-link>
-        <!-- | -->
-        <!-- <router-link to="/leaderboard">Leaderboard</router-link> -->
+        <router-link to="/my-assets">My assets</router-link> |
+        <router-link to="/leaderboard">Leaderboard</router-link>
       </div>
       <router-view/>
     </main>
