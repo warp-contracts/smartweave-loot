@@ -76,7 +76,7 @@ export default {
           for (const material of MATERIALS) {
             for (const item of ITEMS) {
               const asset = assetToStr(color, material, item)
-              if (!this.excludeAssets.includes(asset)) {
+              if (!this.excludeAssets.find(el => el.name == asset)) {
                 result.push({
                   color,
                   material,

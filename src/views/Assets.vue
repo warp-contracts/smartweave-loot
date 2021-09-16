@@ -1,30 +1,30 @@
 <template>
   <div>
 
+    <div v-if="!loadingAssets" class="checkbox-container">
+      <v-checkbox
+        size="small"
+        v-model="showNotGenerated"
+        label="Show available assets first"
+      ></v-checkbox>
+    </div>
+
+    <div v-if="showNotGenerated" class="not-generated-assets">
+      <h2>Available assets ({{ 1000 - generatedAssets.length }})</h2>
+      <Assets :showNotGeneratedAssets="true"  :excludeAssets="generatedAssets" />
+      <div v-if="showNotGenerated" class="line-container">
+        <hr />
+      </div>
+    </div>
+
     <div class="generated-assets">
       <h2>Generated assets ({{ generatedAssets.length }})</h2>
-      <div v-if="!loadingAssets" class="checkbox-container">
-        <v-checkbox
-          size="small"
-          v-model="showNotGenerated"
-          label="Show available assets"
-        ></v-checkbox>
-      </div>
       <div v-if="loadingAssets">
         <vue-loaders-ball-beat color="gray" scale="1"></vue-loaders-ball-beat>
       </div>
       <Assets v-else :showNotGeneratedAssets="false" :includeAssets="generatedAssets" :excludeAssets="[]" />
     </div>
 
-    <div v-if="showNotGenerated" class="line-container">
-      <hr />
-    </div>
-    
-
-    <div v-if="showNotGenerated" class="not-generated-assets">
-      <h2>Available assets ({{ 1000 - generatedAssets.length }})</h2>
-      <Assets :showNotGeneratedAssets="true"  :excludeAssets="generatedAssets" />
-    </div>
   </div>
 </template>
 
@@ -73,7 +73,7 @@ label.v-label {
 
 .checkbox-container {
   margin: auto;
-  margin-top: 10px;
+  margin-bottom: 20px;
   border: 1px solid #ddd;
   width: 280px;
   padding-left: 20px;
