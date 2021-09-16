@@ -8,7 +8,8 @@
     </div>
     <div v-if="owner" class="owned-by-container">
       Owned by
-      <a target="_blank" :href="getViewblockLink(owner)">{{ owner | short-address }}</a>
+      <a :href="getOwnerAssetsLink(owner)">{{ owner | short-address }}</a>
+      <!-- <a target="_blank" :href="getViewblockLink(owner)">{{ owner | short-address }}</a> -->
     </div>
     <div v-if="allowTransfer" class="transfer-button">
       <v-btn @click="transferButtonClicked()" outlined small>Transfer</v-btn>
@@ -89,6 +90,9 @@ export default {
   methods: {
     getViewblockLink(address) {
       return `https://viewblock.io/arweave/address/${address}`
+    },
+    getOwnerAssetsLink(address) {
+      return `/#/assets/${address}`
     },
     async transferButtonClicked() {
       const confirmed = confirm(`Are you sure you want to transfer "${this.title}"? After the transfer you will not own this item anymore.`)

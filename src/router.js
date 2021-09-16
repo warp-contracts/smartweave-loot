@@ -4,6 +4,8 @@ import About from './views/About.vue'
 import Assets from './views/Assets.vue'
 import MyAssets from './views/MyAssets.vue'
 import CorrectState from './views/CorrectState.vue'
+import AssetsOfUser from './views/AssetsOfUser.vue'
+import Leaderboard from './views/Leaderboard.vue'
 
 Vue.use(Router)
 
@@ -29,5 +31,15 @@ export default new Router({
       name: 'state',
       component: CorrectState
     },
+    {
+      path: '/assets/:owner',
+      name: 'assetsOfUser',
+      component: AssetsOfUser
+    },
+    {
+      path: '/leaderboard',
+      name: 'leaderboard',
+      component: Leaderboard
+    }
   ]
 })

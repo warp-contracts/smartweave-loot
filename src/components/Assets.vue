@@ -30,7 +30,7 @@ function assetToStr(color, material, item) {
   return `${color} ${material} ${item}`
 }
 
-const ASSETS_VISIBLE_CHUNK_SIZE = 30;
+const ASSETS_VISIBLE_CHUNK_SIZE = 40;
 
 export default {
   name: "Assets",
@@ -109,7 +109,12 @@ export default {
     includeAssets() {
       this.visibleAssets = {}
       this.showMoreAssets()
-    }
+    },
+
+    excludeAssets() {
+      this.visibleAssets = {}
+      this.showMoreAssets()
+    },
   },
 
   components: {

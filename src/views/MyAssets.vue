@@ -94,7 +94,7 @@ import item from '@/components/Asset.vue'
 import { run } from 'ar-gql'
 import deployedContracts from '@/deployed-contracts.json'
 
-const LAST_BLOCKS_TO_CHECK = 30000;
+const LAST_BLOCKS_TO_CHECK = 30000
 
 export default {
   name: 'AssetsPage',
@@ -137,9 +137,9 @@ export default {
     async loadUserTransactions() {
       if (this.address) {
         this.loadingTransactions = true
-        const networkInfo = await this.arweave.network.getInfo();
+        const networkInfo = await this.arweave.network.getInfo()
 
-        const minBlock = networkInfo.height - LAST_BLOCKS_TO_CHECK;
+        const minBlock = networkInfo.height - LAST_BLOCKS_TO_CHECK
 
         const query = `
         {
