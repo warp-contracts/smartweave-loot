@@ -1,36 +1,40 @@
-import Arweave from 'arweave'
+import Arweave from 'arweave';
 import {
-  LoggerFactory,
-  ContractDefinitionLoader,
-  // ContractInteractionsLoader,
-  // CacheableContractInteractionsLoader,
-  SmartWeaveWebFactory,
-} from 'redstone-smartweave'
-import LocalStorageCache from "@/cache/cache"
-// import LocalStorageBlockHeightCache from "@/cache/block-height-cache"
-import deployedContracts from './deployed-contracts.json'
+  CacheableContractInteractionsLoader,
+  CacheableStateEvaluator,
+  ContractDefinitionLoader, ContractInteractionsLoader, LocalStorageBlockHeightCache, LocalStorageCache, LoggerFactory,
+  SmartWeaveWebFactory
+} from 'redstone-smartweave';
+import deployedContracts from './deployed-contracts.json';
 
 // Set up Arweave client
 export const arweave = Arweave.init({
-  host: 'arweave.net',
+  host: "dh48zl0solow5.cloudfront.net",
   port: 443,
-  protocol: 'https',
-})
+  protocol: "https",
+});
 
-// Set up SmartWeave client
-LoggerFactory.INST.logLevel('silly')
+LoggerFactory.INST.logLevel("debug");
 
-const contractDefinitionLoader = new ContractDefinitionLoader(arweave, new LocalStorageCache("_REDSTONE_LOOT_APP_"))
-// const contractInteractionsLoader = new CacheableContractInteractionsLoader(
-//   new ContractInteractionsLoader(arweave),
-//   new LocalStorageBlockHeightCache("_REDSTONE_LOOT_APP_INTERACTIONS_")
-// )
-const smartweave = SmartWeaveWebFactory.memCachedBased(arweave)
+const contractDefinitionLoader = new ContractDefinitionLoader(
+  arweave,
+  new LocalStorageCache("_REDSTONE_APP_")
+);
+const cacheableStateEvaluator = new CacheableStateEvaluator(
+  arweave,
+  new LocalStorageBlockHeightCache("_REDSTONE_APP_STATE_", 2, false, 100)
+);
+const cacheableInteractionsLoader = new CacheableContractInteractionsLoader(
+  new ContractInteractionsLoader(arweave),
+  new LocalStorageBlockHeightCache("_REDSTONE_APP_INTERACTIONS_", 1, true)
+);
+
+const smartweave = SmartWeaveWebFactory
+  .memCachedBased(arweave)
   .setDefinitionLoader(contractDefinitionLoader)
-  // .setInteractionsLoader(contractInteractionsLoader)
+  .setStateEvaluator(cacheableStateEvaluator)
+  .setInteractionsLoader(cacheableInteractionsLoader)
   .build();
-
-// const smartweave = SmartWeaveWebFactory.memCached(arweave)
 
 // Interacting with the contract
 const contract = smartweave
