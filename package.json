@@ -20,7 +20,7 @@
     "core-js": "^2.6.5",
     "hex-rgb": "^5.0.0",
     "jest": "^27.1.1",
-    "redstone-smartweave": "^0.3.10-alpha.5",
+    "redstone-smartweave": "^0.3.10-alpha.11",
     "vue": "^2.6.10",
     "vue-loaders": "^4.1.4",
     "vue-observe-visibility": "^1.0.0",
