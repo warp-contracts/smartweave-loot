@@ -2,7 +2,7 @@
   <div>
       <div class="assets-container">
         <div class="asset-wrapper" v-for="(asset, index) in assetsToShow" :key="index">
-          <Asset :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" />
+          <Asset :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" :allowTransfer="allowTransfer" />
         </div>
       </div>
       <div v-observe-visibility="showMoreAssets" class="load-more-container">
@@ -30,7 +30,7 @@ function assetToStr(color, material, item) {
   return `${color} ${material} ${item}`
 }
 
-const ASSETS_VISIBLE_CHUNK_SIZE = 30;
+const ASSETS_VISIBLE_CHUNK_SIZE = 40;
 
 export default {
   name: "Assets",
@@ -39,6 +39,7 @@ export default {
     includeAssets: Array,
     showNotGeneratedAssets: Boolean,
     excludeAssets: Array,
+    allowTransfer: Boolean,
   },
 
   data() {
@@ -75,7 +76,7 @@ export default {
           for (const material of MATERIALS) {
             for (const item of ITEMS) {
               const asset = assetToStr(color, material, item)
-              if (!this.excludeAssets.includes(asset)) {
+              if (!this.excludeAssets.find(el => el.name == asset)) {
                 result.push({
                   color,
                   material,
@@ -108,7 +109,12 @@ export default {
     includeAssets() {
       this.visibleAssets = {}
       this.showMoreAssets()
-    }
+    },
+
+    excludeAssets() {
+      this.visibleAssets = {}
+      this.showMoreAssets()
+    },
   },
 
   components: {

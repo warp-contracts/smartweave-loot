@@ -1,30 +1,18 @@
 <template>
   <div>
 
-    <div v-if="!loadingAssets" class="checkbox-container">
-      <v-checkbox
-        size="small"
-        v-model="showNotGenerated"
-        label="Show available assets first"
-      ></v-checkbox>
-    </div>
-
-    <div v-if="showNotGenerated" class="not-generated-assets">
-      <h2>Available assets ({{ 1000 - generatedAssets.length }})</h2>
-      <Assets :showNotGeneratedAssets="true"  :excludeAssets="generatedAssets" />
-      <div v-if="showNotGenerated" class="line-container">
-        <hr />
-      </div>
-    </div>
-
     <div class="generated-assets">
-      <h2>Generated assets ({{ generatedAssets.length }})</h2>
+      <h2>Assets of user:
+        <a :href="getViewblockLink(userAddress)" target="_blank">
+          {{ userAddress | short-address }}
+        </a>
+        ({{ assetsOfUser.length }})
+      </h2>
       <div v-if="loadingAssets">
         <vue-loaders-ball-beat color="gray" scale="1"></vue-loaders-ball-beat>
       </div>
-      <Assets v-else :showNotGeneratedAssets="false" :includeAssets="generatedAssets" :excludeAssets="[]" />
+      <Assets v-else :showNotGeneratedAssets="false" :includeAssets="assetsOfUser" :excludeAssets="[]" />
     </div>
-
   </div>
 </template>
 
@@ -33,26 +21,35 @@ import Assets from '@/components/Assets.vue'
 import { mapState } from 'vuex'
 
 export default {
-  name: "AssetsPage",
+  name: "AssetsOfUser",
 
   data() {
     return {
       loadedAssets: {},
-      showNotGenerated: false,
     }
   },
 
   computed: {
     ...mapState(['state', 'validity', 'loadingAssets']),
-    generatedAssets() {
-      if (this.state.assets) {
+    assetsOfUser() {
+      if (this.state.assets && this.userAddress) {
         return Object.entries(this.state.assets).map(([name, owner]) => ({
           name,
           owner,
-        }))
+        })).filter(asset => asset.owner === this.userAddress)
       }
       return []
-    }
+    },
+
+    userAddress() {
+      return this.$route.params.owner
+    },
+  },
+
+  methods: {
+    getViewblockLink(address) {
+      return `https://viewblock.io/arweave/address/${address}`
+    },
   },
 
   components: {
@@ -73,7 +70,7 @@ label.v-label {
 
 .checkbox-container {
   margin: auto;
-  margin-bottom: 20px;
+  margin-top: 10px;
   border: 1px solid #ddd;
   width: 280px;
   padding-left: 20px;
