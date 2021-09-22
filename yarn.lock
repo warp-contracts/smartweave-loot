@@ -2640,7 +2640,7 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
-axios@*, axios@^0.21.1, axios@^0.21.3:
+axios@*, axios@^0.21.1, axios@^0.21.3, axios@^0.21.4:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
@@ -3245,9 +3245,9 @@ bser@2.1.1:
     node-int64 "^0.4.0"
 
 bson@^4.5.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-4.5.1.tgz#02e9d649ce017ab14ed258737756c11809963d6c"
-  integrity sha512-XqFP74pbTVLyLy5KFxVfTUyRrC1mgOlmu/iXHfXqfCKT59jyP9lwbotGfbN59cHBRbJSamZNkrSopjv+N0SqAA==
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-4.5.2.tgz#567b4ee94372d5284a4d6c47fb6e1cc711ae76ba"
+  integrity sha512-8CEMJpwc7qlQtrn2rney38jQSEeMar847lz0LyitwRmVknAW8iHXrzW4fTjHfyWm0E3sukyD/zppdH+QU1QefA==
   dependencies:
     buffer "^5.6.0"
 
@@ -11261,14 +11261,15 @@ redent@^1.0.0:
     indent-string "^2.1.0"
     strip-indent "^1.0.1"
 
-redstone-smartweave@^0.3.10-alpha.5:
-  version "0.3.10-alpha.5"
-  resolved "https://registry.yarnpkg.com/redstone-smartweave/-/redstone-smartweave-0.3.10-alpha.5.tgz#83bbbb1b8ab89780fa8dec49b33a62a6b228f4db"
-  integrity sha512-Db0VvXeKmSVOGWXWN/gC73ZTqpHJGhO7Gg1UsJARgfcRLP9fiHTEPJjAIlKzkArOWbuEMPEIcGNmN9kl8TDXHg==
+redstone-smartweave@^0.3.10-alpha.10:
+  version "0.3.10-alpha.10"
+  resolved "https://registry.yarnpkg.com/redstone-smartweave/-/redstone-smartweave-0.3.10-alpha.10.tgz#75cb7eb4632abe78ae94e92b628366e8b8b66c6a"
+  integrity sha512-QB/k3UbAvQahgiw1ppzR0Ox3azeZb3pg4miBHh35fxTFJTGE0tHIQ4BAUFB8peX2yGC0rn1mT8AsxibSnc8JTQ==
   dependencies:
     "@weavery/clarity" "^0.1.5"
     arweave "^1.10.16"
     arweave-multihost "^0.1.0"
+    axios "^0.21.4"
     bignumber.js "^9.0.1"
     bson "^4.5.0"
     json-beautify "^1.1.1"
