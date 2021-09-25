@@ -1,6 +1,6 @@
 <template>
   <div class="asset-container">
-    <div class="asset-image-container" :style="borderColorStyle">
+    <div :id="coloredImageId" class="asset-image-container" :style="borderColorStyle">
       <img class="asset" :style="imageCss" :src="`items/${item}.png`" />
     </div>
     <div class="asset-title-container">
@@ -14,10 +14,15 @@
     <div v-if="allowTransfer" class="transfer-button">
       <v-btn @click="transferButtonClicked()" outlined small>Transfer</v-btn>
     </div>
+    <div v-if="allowDownload" class="transfer-button">
+      <v-btn @click="downloadImage()" outlined small>Download</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
+import { toPng } from 'html-to-image';
+import download from 'downloadjs';
 import { getCssForColor } from '@/helpers/color-solver'
 import { mapState } from 'vuex'
 
@@ -60,34 +65,18 @@ export default {
   },
   data() {
     return {
+      allowDownload: false,
       imageBase64: 'data:image/png;base64, '
     }
   },
-  async mounted() {
-    // const materialColor = MATERIAL_COLORS[this.material] || '#000'
-    // console.log({ materialColor })
-    // const resultImage = await replaceColor({
-    //   image: `items/${this.item}.png`,
-    //   colors: {
-    //     type: 'hex',
-    //     targetColor: '#ffffff',
-    //     replaceColor: materialColor,
-    //   }
-    // })
-    // // const resultImage = await replaceColor({
-    // //   image: `items/${this.item}.png`,
-    // //   colors: {
-    // //     type: 'hex',
-    // //     targetColor: '#000000',
-    // //     replaceColor: materialColor,
-    // //   }
-    // // })
-    // console.log(resultImage);
-    // const base64 = await resultImage.getBase64Async(-1)
-    // console.log({ base64 })
-    // this.imageBase64 = base64
-  },
+  async mounted() {},
   methods: {
+    async downloadImage() {
+      const elem = document.getElementById(this.coloredImageId);
+      toPng(elem).then((uri) => {
+        download(uri, this.coloredImageId + '.png');
+      });
+    },
     getViewblockLink(address) {
       return `https://viewblock.io/arweave/address/${address}`
     },
@@ -125,6 +114,9 @@ export default {
     ...mapState(['contract']),
     borderColorStyle() {
       return { 'box-shadow': `inset 0 0 15px ${NICE_COLORS[this.color]}` }
+    },
+    coloredImageId() {
+      return this.title.replaceAll(' ', '-');
     },
     title() {
       return `${this.color} ${this.material} ${this.item}`
@@ -169,7 +161,6 @@ export default {
   .asset-image-container {
     margin: auto;
     border-radius: 50%;
-    // border: 3px solid;
     width: 80px;
     height: 80px;
     display: flex;

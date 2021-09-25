@@ -1,12 +1,13 @@
 <template>
   <div>
-      <div class="assets-container">
-        <div class="asset-wrapper" v-for="(asset, index) in assetsToShow" :key="index">
-          <Asset :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" :allowTransfer="allowTransfer" />
-        </div>
+    <!-- <a href="javascript:void(0)" @click="downloadAll()">Download all</a><br /> -->
+    <div class="assets-container">
+      <div class="asset-wrapper" v-for="(asset, index) in assetsToShow" :key="index">
+        <Asset :ref="getIdForAsset(asset)" :owner="asset.owner" :item="asset.item" :color="asset.color" :material="asset.material" :allowTransfer="allowTransfer" />
       </div>
-      <div v-observe-visibility="showMoreAssets" class="load-more-container">
-      </div>
+    </div>
+    <div v-observe-visibility="showMoreAssets" class="load-more-container">
+    </div>
   </div>
 </template>
 
@@ -30,6 +31,10 @@ function assetToStr(color, material, item) {
   return `${color} ${material} ${item}`
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const ASSETS_VISIBLE_CHUNK_SIZE = 40;
 
 export default {
@@ -49,6 +54,18 @@ export default {
   },
 
   methods: {
+    async downloadAll() {
+      for (const asset of this.assets) {
+        const id = this.getIdForAsset(asset);
+        console.log(`Downloading: ${id}`);
+        // console.log({el: this.$refs[id]});
+        await this.$refs[id][0].downloadImage();
+        await sleep(2000);
+      }
+    },
+    getIdForAsset(asset) {
+      return asset.id.replaceAll(' ', '-');
+    },
     showMoreAssets() {
       let counter = 0;
       const newVisibleAssets = { ...this.visibleAssets }
