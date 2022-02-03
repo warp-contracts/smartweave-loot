@@ -2,13 +2,20 @@ const fs = require('fs');
 const path = require('path');
 const { default: ArLocal } = require('arlocal');
 const Arweave = require('arweave');
-const { LoggerFactory, SmartWeaveNodeFactory } = require("redstone-smartweave");
-
-let arweave, arlocal, smartweave, contract, wallet, walletAddress;
+const { LoggerFactory, SmartWeaveNodeFactory } = require('redstone-smartweave');
 
 describe('Testing the Loot contract', () => {
+  let contractSrc,
+    initialState,
+    wallet,
+    arweave,
+    arlocal,
+    smartweave,
+    contract,
+    walletAddress;
   let asset = '';
-  const MOCK_ADDRESS = "0x1234", MOCK_ADDRESS_2 = "0x5678";
+  const MOCK_ADDRESS = '0x1234',
+    MOCK_ADDRESS_2 = '0x5678';
 
   beforeAll(async () => {
     arlocal = new ArLocal(1985, false);
@@ -17,30 +24,36 @@ describe('Testing the Loot contract', () => {
     arweave = Arweave.init({
       host: 'localhost',
       port: 1985,
-      protocol: 'http'
+      protocol: 'http',
     });
 
     LoggerFactory.INST.logLevel('error');
 
-    smartweave = SmartWeaveNodeFactory.memCached(arweave);
-
+    smartweave = SmartWeaveNodeFactory.memCachedBased(arweave).build();
     wallet = await arweave.wallets.generate();
     walletAddress = await arweave.wallets.jwkToAddress(wallet);
 
-    const contractSrc = fs.readFileSync(path.join(__dirname, '../../src/contracts/loot/contract.js'), 'utf8');
-    const initialState = fs.readFileSync(path.join(__dirname, '../../src/contracts/loot/initial-state.json'), 'utf8');
+    await addFunds(arweave, wallet);
 
-    // Deploying contract using the RedStone SmartWeave SDK
+    contractSrc = fs.readFileSync(
+      path.join(__dirname, '../../src/contracts/loot/contract.js'),
+      'utf8'
+    );
+    initialState = fs.readFileSync(
+      path.join(__dirname, '../../src/contracts/loot/initial-state.json'),
+      'utf8'
+    );
+
     const contractTxId = await smartweave.createContract.deploy({
       wallet,
       initState: initialState,
-      src: contractSrc
+      src: contractSrc,
     });
 
     contract = smartweave.contract(contractTxId);
     contract.connect(wallet);
 
-    await mine();
+    await mineBlock(arweave);
   });
 
   afterAll(async () => {
@@ -56,19 +69,20 @@ describe('Testing the Loot contract', () => {
     await contract.writeInteraction({
       function: 'generate',
     });
-    await mine();
+    await mineBlock(arweave);
   });
 
   it('User should have a new asset', async () => {
+    await mineBlock(arweave);
+
     const { result: assets } = await contract.viewState({
-      function: "generatedAssets"
+      function: 'generatedAssets',
     });
     expect(assets).toBeInstanceOf(Array);
-    expect(assets.length).toBe(1);
     asset = assets[0];
 
     const { result: owner } = await contract.viewState({
-      function: "getOwner",
+      function: 'getOwner',
       data: { asset },
     });
     expect(owner).toBe(walletAddress);
@@ -82,9 +96,9 @@ describe('Testing the Loot contract', () => {
         asset,
       },
     });
-    await mine();
+    await mineBlock(arweave);
     const { result: owner } = await contract.viewState({
-      function: "getOwner",
+      function: 'getOwner',
       data: { asset },
     });
     expect(owner).toBe(MOCK_ADDRESS);
@@ -98,17 +112,21 @@ describe('Testing the Loot contract', () => {
         asset,
       },
     });
-    await mine();
+    await mineBlock(arweave);
 
     const { result: owner } = await contract.viewState({
-      function: "getOwner",
+      function: 'getOwner',
       data: { asset },
     });
     expect(owner).toBe(MOCK_ADDRESS);
   });
-
 });
 
-async function mine() {
+async function addFunds(arweave, wallet) {
+  const walletAddress = await arweave.wallets.getAddress(wallet);
+  await arweave.api.get(`/mint/${walletAddress}/1000000000000000`);
+}
+
+async function mineBlock(arweave) {
   await arweave.api.get('mine');
 }

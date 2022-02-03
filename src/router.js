@@ -1,45 +1,39 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import About from './views/About.vue'
-import Assets from './views/Assets.vue'
-import MyAssets from './views/MyAssets.vue'
-import CorrectState from './views/CorrectState.vue'
-import AssetsOfUser from './views/AssetsOfUser.vue'
-import Leaderboard from './views/Leaderboard.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import About from './views/About.vue';
+import Assets from './views/Assets.vue';
+import MyAssets from './views/MyAssets.vue';
+import AssetsOfUser from './views/AssetsOfUser.vue';
+import Leaderboard from './views/Leaderboard.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'about',
-      component: About
+      component: About,
     },
     {
       path: '/assets',
       name: 'assets',
-      component: Assets
+      component: Assets,
     },
     {
       path: '/my-assets',
       name: 'my-assets',
-      component: MyAssets
-    },
-    {
-      path: '/correct-loot-contract-state',
-      name: 'state',
-      component: CorrectState
+      component: MyAssets,
     },
     {
       path: '/assets/:owner',
       name: 'assetsOfUser',
-      component: AssetsOfUser
+      component: AssetsOfUser,
     },
     {
       path: '/leaderboard',
       name: 'leaderboard',
-      component: Leaderboard
-    }
-  ]
-})
+      component: Leaderboard,
+    },
+  ],
+});

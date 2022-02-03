@@ -11,7 +11,9 @@
           <div class="asset-count">
             owns
             <a :href="'/#/assets/' + owner.address">
-              {{ owner.assetCount }} asset<span>{{ owner.assetCount > 1 ? 's': '' }}</span>
+              {{ owner.assetCount }} asset<span>{{
+                owner.assetCount > 1 ? 's' : ''
+              }}</span>
             </a>
           </div>
         </div>
@@ -23,41 +25,41 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import { url } from '@/constants.js';
+
 export default {
   name: 'Leaderboard',
   computed: {
     ...mapState(['state', 'loadingAssets']),
     owners() {
-      let result = []
-      const aggregated = {}
+      let result = [];
+      const aggregated = {};
       if (!this.loadingAssets && this.state) {
-        for (const [_asset, owner] of Object.entries(this.state.assets)) {
-          aggregated[owner] = (aggregated[owner] || 0) + 1
+        for (const [, owner] of Object.entries(this.state.assets)) {
+          aggregated[owner] = (aggregated[owner] || 0) + 1;
         }
         result = Object.entries(aggregated)
           .map(([address, assetCount]) => ({ address, assetCount }))
-          .sort((owner1, owner2) => owner2.assetCount - owner1.assetCount)
+          .sort((owner1, owner2) => owner2.assetCount - owner1.assetCount);
       }
-      return result
+      return result;
     },
   },
   methods: {
     getViewblockLink(address) {
-      return `https://viewblock.io/arweave/address/${address}`
+      return `${url.viewblock}/arweave/address/${address}`;
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">
-
 .owners {
   width: 450px;
   margin: 10px auto;
 
   .owner {
-
     border: 1px solid #ddd;
     border-radius: 5px;
     margin: 10px;
@@ -81,5 +83,4 @@ pre {
   text-align: left;
   margin: auto;
 }
-
 </style>

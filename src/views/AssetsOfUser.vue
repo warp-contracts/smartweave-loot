@@ -1,8 +1,8 @@
 <template>
   <div>
-
     <div class="generated-assets">
-      <h2>Assets of user:
+      <h2>
+        Assets of user:
         <a :href="getViewblockLink(userAddress)" target="_blank">
           {{ userAddress | short-address }}
         </a>
@@ -11,51 +11,59 @@
       <div v-if="loadingAssets">
         <vue-loaders-ball-beat color="gray" scale="1"></vue-loaders-ball-beat>
       </div>
-      <Assets v-else :showNotGeneratedAssets="false" :includeAssets="assetsOfUser" :excludeAssets="[]" />
+      <Assets
+        v-else
+        :showNotGeneratedAssets="false"
+        :includeAssets="assetsOfUser"
+        :excludeAssets="[]"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import Assets from '@/components/Assets.vue'
-import { mapState } from 'vuex'
+import Assets from '@/components/Assets.vue';
+import { mapState } from 'vuex';
+import { url } from '@/constants.js';
 
 export default {
-  name: "AssetsOfUser",
+  name: 'AssetsOfUser',
 
   data() {
     return {
       loadedAssets: {},
-    }
+    };
   },
 
   computed: {
     ...mapState(['state', 'validity', 'loadingAssets']),
     assetsOfUser() {
       if (this.state.assets && this.userAddress) {
-        return Object.entries(this.state.assets).map(([name, owner]) => ({
-          name,
-          owner,
-        })).filter(asset => asset.owner === this.userAddress)
+        return Object.entries(this.state.assets)
+          .map(([name, owner]) => ({
+            name,
+            owner,
+          }))
+          .filter((asset) => asset.owner === this.userAddress);
       }
-      return []
+      return [];
     },
 
     userAddress() {
-      return this.$route.params.owner
+      return this.$route.params.owner;
     },
   },
 
   methods: {
     getViewblockLink(address) {
-      return `https://viewblock.io/arweave/address/${address}`
+      return `${url.viewblock}/arweave/address/${address}`;
     },
   },
 
   components: {
     Assets,
   },
-}
+};
 </script>
 
 <style>
@@ -63,11 +71,9 @@ label.v-label {
   left: 10px !important;
   top: 1px;
 }
-
 </style>
 
 <style lang="scss" scoped>
-
 .checkbox-container {
   margin: auto;
   margin-top: 10px;
@@ -89,5 +95,4 @@ label.v-label {
     border-bottom: 1px solid #ddd;
   }
 }
-
 </style>

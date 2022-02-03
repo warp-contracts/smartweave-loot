@@ -13,7 +13,7 @@ Initially there are no generated assets, but users will be able to generate and 
 Users also will be able to transfer their assets to others.
 
 ### Deployed version
-We've already deployed this contract on the Arweave blockchain. Its transaction id is [Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY](https://viewblock.io/arweave/address/Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY). You can check its source code on the [Arweave Blockchain.](https://ld27fm4mscl2niqzpfqtrxpin5ltmkh37t7l2nmrbmoq2embqefa.arweave.net/WPXys4yQl6aiGXlhON3ob1c2KPv8_r01kQsdDRGBgQo)
+We've already deployed this contract on the Arweave blockchain. Its transaction id is [Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY](https://scanner.redstone.tools/#/app/contract/Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY). You can check its source code in our [Scanner.](https://scanner.redstone.tools/#/app/contract/Daj-MNSnH55TDfxqC7v4eq0lKzVIwh98srUaWqyuZtY#code)
 
 ### 🙋‍♂️ Need help?
 Please feel free to contact us [on Discord](https://redstone.finance/discord) if you have any questions.
