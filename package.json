@@ -6,8 +6,6 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
     "test:contracts": "yarn test:contracts:node && yarn test:contracts:browser",
     "test:contracts:node": "jest tests/contracts",
     "test:contracts:browser": "jest tests/contracts --config ./jest.browser.config.js"
@@ -15,12 +13,12 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "ar-gql": "^0.0.6",
-    "arlocal": "^1.0.36",
-    "arweave": "^1.10.16",
+    "arlocal": "^1.1.19",
+    "arweave": "1.10.16",
     "core-js": "^2.6.5",
     "hex-rgb": "^5.0.0",
     "jest": "^27.1.1",
-    "redstone-smartweave": "0.3.10-alpha.12",
+    "redstone-smartweave": "0.4.28",
     "vue": "^2.6.10",
     "vue-loaders": "^4.1.4",
     "vue-observe-visibility": "^1.0.0",
@@ -44,13 +42,10 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "jest-environment-jsdom": "^27.2.0",
-    "node-sass": "^4.14.1",
-    "sass-loader": "^8.0.0",
+    "node-sass": "^6.0.0",
+    "sass-loader": "^10",
     "text-encoding": "^0.7.0",
     "vue-cli-plugin-vuetify": "^2.4.2",
     "vue-template-compiler": "^2.6.10"
-  },
-  "engines": {
-    "node": ">=12 <16"
   }
 }
